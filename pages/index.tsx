@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import ReactFlow, {
   addEdge,
   Background,
@@ -69,29 +68,32 @@ export default function Home() {
       <Head>
         <title>Dialoguer</title>
       </Head>
-      <div className={styles.container}>
-        <button
-          onClick={() =>
-            setElements([
-              ...elements,
-              {
-                id: nextId,
-                data: {
-                  nodeText: `Dialog text`,
-                  label: <NodeContent nodeText="Dialog text" />,
+      <div className="flex flex-row h-screen w-screen">
+        <div className="w-min h-screen flex flex-col items-center bg-green-700 z-50 p-4 space-y-5">
+          <button
+            className="text-lg p-3 bg-white text-green-800 font-bold w-36 rounded-xl hover:shadow-xl hover:bg-green-50 transition duration-300 ease-in-out transform active:scale-95"
+            onClick={() =>
+              setElements([
+                ...elements,
+                {
+                  id: nextId,
+                  data: {
+                    nodeText: `Dialog text`,
+                    label: <NodeContent nodeText="Dialog text" />,
+                  },
+                  position: { x: 300, y: 5 },
+                  connectable: true,
                 },
-                position: { x: 300, y: 5 },
-                connectable: true,
-              },
-            ])
-          }
-        >
-          Add node
-        </button>
-        <input
-          value={selectedNodeData?.nodeText}
-          onChange={(evt) => setNodeText(evt.target.value)}
-        />
+              ])
+            }
+          >
+            Add node
+          </button>
+          <textarea
+            value={selectedNodeData?.nodeText}
+            onChange={(evt) => setNodeText(evt.target.value)}
+          />
+        </div>
         <ReactFlow
           elements={elements}
           onConnect={handleConnect}
