@@ -10,24 +10,17 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import { FC, useEffect, useState } from 'react';
 
-interface ContentProps {
-  nodeTitle: string;
+interface NodeContentProps {
   nodeText: string;
 }
 
 interface NodeData {
-  nodeTitle: string;
   nodeText: string;
   label: FC;
 }
 
-const NodeContent: FC<ContentProps> = ({ nodeTitle, nodeText }) => {
-  return (
-    <>
-      <div>{nodeTitle}</div>
-      <div>{nodeText}</div>
-    </>
-  );
+const NodeContent: FC<NodeContentProps> = ({ nodeText }) => {
+  return <div>{nodeText}</div>;
 };
 
 interface GetCurrentNodeDataParams {
@@ -44,7 +37,6 @@ const getCurrentNodeData = ({
 
 export default function Home() {
   const [elements, setElements] = useState<Elements>([]);
-  const [nodeTitle, setNodeTitle] = useState('');
   const [nodeText, setNodeText] = useState('');
   const [selectedNodeId, setSelectedNodeId] = useState('');
 
@@ -58,18 +50,15 @@ export default function Home() {
     setElements((els) =>
       els.map((el) => {
         if (el.id === selectedNodeId) {
-          const nextTitle = nodeTitle || selectedNodeData?.nodeTitle || '';
-          const nextText = nodeText || selectedNodeData?.nodeText || '';
           el.data = {
-            nodeTitle: nextTitle,
-            nodeText: nextText,
-            label: <NodeContent nodeTitle={nextTitle} nodeText={nextText} />,
+            nodeText: nodeText,
+            label: <NodeContent nodeText={nodeText} />,
           };
         }
         return el;
       })
     );
-  }, [nodeTitle, nodeText, setElements]);
+  }, [nodeText, setElements]);
 
   const handleConnect = (connection: Edge | Connection) => {
     setElements((elements) => addEdge(connection, elements));
@@ -88,14 +77,8 @@ export default function Home() {
               {
                 id: nextId,
                 data: {
-                  nodeTitle: `Title ${nextId}`,
                   nodeText: `Dialog text`,
-                  label: (
-                    <NodeContent
-                      nodeTitle={`Title ${nextId}`}
-                      nodeText="Dialog text"
-                    />
-                  ),
+                  label: <NodeContent nodeText="Dialog text" />,
                 },
                 position: { x: 300, y: 5 },
                 connectable: true,
@@ -105,10 +88,6 @@ export default function Home() {
         >
           Add node
         </button>
-        <input
-          value={selectedNodeData?.nodeTitle}
-          onChange={(evt) => setNodeTitle(evt.target.value)}
-        />
         <input
           value={selectedNodeData?.nodeText}
           onChange={(evt) => setNodeText(evt.target.value)}
