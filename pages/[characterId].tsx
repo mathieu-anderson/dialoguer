@@ -6,7 +6,7 @@ export default function Character() {
   const router = useRouter();
   return (
     <Layout>
-      <Flowchart characterId={String(router.query.characterId)} />
+      <Flowchart characterId={router.query.characterId} />
     </Layout>
   );
 }
