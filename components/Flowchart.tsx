@@ -113,7 +113,10 @@ const Flowchart: FC<FlowchartProps> = ({ characterId }) => {
     );
   }, [selectedNodeId, currentElements]);
 
-  const handleSaveTree = useCallback(() => {
+  useEffect(() => {
+    if (storage.current === undefined) {
+      return;
+    }
     if (rfInstance !== null) {
       const flow = {
         ...rfInstance.toObject(),
@@ -154,29 +157,25 @@ const Flowchart: FC<FlowchartProps> = ({ characterId }) => {
         >
           Add node
         </button>
-        <textarea
-          className="absolute z-10 top-20"
-          value={selectedNodeData?.nodeText || ''}
-          onChange={(evt) => {
-            setCurrentElements((els) =>
-              els.map((el) => {
-                if (el.id === selectedNodeId) {
-                  el.data = {
-                    nodeText: evt.target.value,
-                    label: <NodeContent nodeText={evt.target.value} />,
-                  };
-                }
-                return el;
-              })
-            );
-          }}
-        />
-        <button
-          className="absolute z-10 top-40 text-lg p-3 bg-white text-green-800 font-bold w-36 rounded-xl hover:shadow-xl hover:bg-green-50 transition duration-300 ease-in-out transform active:scale-95"
-          onClick={handleSaveTree}
-        >
-          Save
-        </button>
+        {selectedNodeData !== undefined && (
+          <textarea
+            className="absolute z-10 top-20"
+            value={selectedNodeData?.nodeText || ''}
+            onChange={(evt) => {
+              setCurrentElements((els) =>
+                els.map((el) => {
+                  if (el.id === selectedNodeId) {
+                    el.data = {
+                      nodeText: evt.target.value,
+                      label: <NodeContent nodeText={evt.target.value} />,
+                    };
+                  }
+                  return el;
+                })
+              );
+            }}
+          />
+        )}
         <Background variant={'dots' as BackgroundVariant} gap={20} size={1} />
       </ReactFlow>
     </>
