@@ -8,6 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/uuid": "^8.3.0",
+    "@types/uuid-readable": "^0.0.0",
     "autoprefixer": "^10.1.0",
     "localforage": "^1.9.0",
     "next": "10.0.4",
@@ -15,7 +17,9 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-flow-renderer": "^8.3.1",
-    "tailwindcss": "^2.0.2"
+    "tailwindcss": "^2.0.2",
+    "uuid": "^8.3.2",
+    "uuid-readable": "^0.0.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.16",

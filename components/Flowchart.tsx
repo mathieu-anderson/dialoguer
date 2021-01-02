@@ -1,6 +1,5 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import useLocalStorage from '../hooks/useLocalStorage';
 import localforage from 'localforage';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import ReactFlow, {
   addEdge,
   Background,
@@ -21,40 +20,6 @@ interface CharactersElements {
 const NodeContent: FC<NodeContentProps> = ({ nodeText }) => {
   return <div>{nodeText}</div>;
 };
-
-// const elements: CharactersElements = {
-//   1: [
-//     {
-//       id: '1',
-//       type: 'input',
-//       data: {
-//         nodeText: `Text for char 1`,
-//         label: <NodeContent nodeText="Text for char 1" />,
-//       },
-//       position: { x: 250, y: 5 },
-//     },
-//   ],
-//   2: [
-//     {
-//       id: '2',
-//       type: 'input',
-//       data: {
-//         nodeText: `Text for char 2`,
-//         label: <NodeContent nodeText="Text for char 2" />,
-//       },
-//       position: { x: 250, y: 5 },
-//     },
-//     {
-//       id: '3',
-//       type: 'default',
-//       data: {
-//         nodeText: `Other text for char 2`,
-//         label: <NodeContent nodeText="Other text for char 2" />,
-//       },
-//       position: { x: 300, y: 100 },
-//     },
-//   ],
-// };
 
 interface NodeContentProps {
   nodeText: string;
@@ -103,7 +68,7 @@ const generateElementsForStorage = (elementsData: any[]) => {
 
 const createLocalforageInstance = (id: string | string[]) => {
   return localforage.createInstance({
-    name: `character-${id}`,
+    name: `${id}-tree`,
   });
 };
 
@@ -148,7 +113,7 @@ const Flowchart: FC<FlowchartProps> = ({ characterId }) => {
     );
   }, [selectedNodeId, currentElements]);
 
-  const onSave = useCallback(() => {
+  const handleSaveTree = useCallback(() => {
     if (rfInstance !== null) {
       const flow = {
         ...rfInstance.toObject(),
@@ -208,7 +173,7 @@ const Flowchart: FC<FlowchartProps> = ({ characterId }) => {
         />
         <button
           className="absolute z-10 top-40 text-lg p-3 bg-white text-green-800 font-bold w-36 rounded-xl hover:shadow-xl hover:bg-green-50 transition duration-300 ease-in-out transform active:scale-95"
-          onClick={onSave}
+          onClick={handleSaveTree}
         >
           Save
         </button>
